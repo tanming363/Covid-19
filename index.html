@@ -48,6 +48,11 @@
                 cursor: pointer;
         }
 
+        #chartdiv {
+                width: 100%;
+                height: 600px;
+        }
+
         @media (max-width: 576px) {
                 .card-text {
                         font-size: 12px;
@@ -67,7 +72,7 @@
 <body>
         <div class="container-fluid mt-5">
                 <div class="input-group mb-2">
-                        <input type="text" class="form-control" placeholder="Enter a country name" id="myCountry">
+                        <input type="text" class="form-control" placeholder="Enter a country name." id="myCountry">
                         <button class="btn btn-light border" type="button" id="myBtn" onclick="getCovidInfo()">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor"
                                         class="bi bi-search" viewBox="0 0 16 16">
@@ -78,6 +83,7 @@
                 </div>
                 <div id="alert"></div>
                 <div id="covidInfo" class="card-shadow rounded mb-3"></div>
+                <div id="chartdiv"></div>
         </div>
         <!-- Optional JavaScript -->
         <!-- Popper.js first, then Bootstrap JS -->
@@ -87,6 +93,9 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"
                 integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
                 crossorigin="anonymous"></script>
+        <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+        <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+        <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
         <script src="fetch-api.js"></script>
 </body>
 
