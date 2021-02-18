@@ -43,40 +43,36 @@ document.getElementById("myBtn").addEventListener("click", () => {
                                                                         </div>
                                                                         <div class="row mb-4">
                                                                                 <div class="col-3 pr-1">
-                                                                                        <small class="card-text">Cases</small>
-                                                                                        <h4>${data.cases}</h4>
+                                                                                        <small class="card-text">Total Cases</small>
+                                                                                        <h4>${numberWithWord(data.cases)}</h4>
+                                                                                </div>
+                                                                                <div class="col-3 pr-1 border-left">
+                                                                                        <small class="card-text">Active</small>
+                                                                                        <h4>${numberWithWord(data.active)}</h4>
                                                                                 </div>
                                                                                 <div class="col-3 pr-1 border-left">
                                                                                         <small class="card-text">Recovered</small>
-                                                                                        <h4>${data.recovered}</h4>
-                                                                                </div>
-                                                                                <div class="col-3 pr-1 border-left">
-                                                                                        <small class="card-text">Critical</small>
-                                                                                        <h4>${data.critical}</h4>
+                                                                                        <h4>${numberWithWord(data.recovered)}</h4>
                                                                                 </div>
                                                                                 <div class="col-3 pr-1 border-left">
                                                                                         <small class="card-text">Deaths</small>
-                                                                                        <h4>${data.deaths}</h4>
+                                                                                        <h4>${numberWithWord(data.deaths)}</h4>
                                                                                 </div>
                                                                         </div>
                                                                         <hr class="dropdown-divider">
                                                                         <div class="row mb-4">
                                                                                 <span class="my-2">Todays Cases</span>
                                                                                 <div class="col-3 pr-1">
-                                                                                        <small class="card-text">Cases</small>
-                                                                                        <h4>${data.todayCases}</h4>
+                                                                                        <small class="card-text">Total Cases</small>
+                                                                                        <h4>${numberWithWord(data.todayCases)}</h4>
                                                                                 </div>
                                                                                 <div class="col-3 pr-1 border-left">
                                                                                         <small class="card-text">Recovered</small>
-                                                                                        <h4>${data.todayRecovered}</h4>
-                                                                                </div>
-                                                                                <div class="col-3 pr-1 border-left">
-                                                                                        <small class="card-text">Critical</small>
-                                                                                        <h4>${data.critical}</h4>
+                                                                                        <h4>${numberWithWord(data.todayRecovered)}</h4>
                                                                                 </div>
                                                                                 <div class="col-3 pr-1 border-left">
                                                                                         <small class="card-text">Deaths</small>
-                                                                                        <h4>${data.todayDeaths}</h4>
+                                                                                        <h4>${numberWithWord(data.todayDeaths)}</h4>
                                                                                 </div>
                                                                         </div>
                                                                 </div>
@@ -210,6 +206,7 @@ function initView() {
                         return res.json();
                 })
                 .then(data => {
+                        console.log(data);
                         document.getElementById("covidInfo").innerHTML = `
                 <div class="row my-3">
                         <div class="col-md-5 col-sm-6">
@@ -235,16 +232,16 @@ function initView() {
                                                 </div>
                                                 <div class="row mb-4">
                                                         <div class="col-3 pr-1">
-                                                                <small class="card-text">Cases</small>
+                                                                <small class="card-text">Total Cases</small>
                                                                 <h4>${numberWithWord(data.cases)}</h4>
+                                                        </div>
+                                                        <div class="col-3 pr-1 border-left">
+                                                                <small class="card-text">Active</small>
+                                                                <h4>${numberWithWord(data.active)}</h4>
                                                         </div>
                                                         <div class="col-3 pr-1 border-left">
                                                                 <small class="card-text">Recovered</small>
                                                                 <h4>${numberWithWord(data.recovered)}</h4>
-                                                        </div>
-                                                        <div class="col-3 pr-1 border-left">
-                                                                <small class="card-text">Critical</small>
-                                                                <h4>${numberWithWord(data.critical)}</h4>
                                                         </div>
                                                         <div class="col-3 pr-1 border-left">
                                                                 <small class="card-text">Deaths</small>
@@ -285,7 +282,6 @@ function initViewChart() {
                         var circle = [];
                         for (let i = 0; i < data.length; i++) {
                                 let el = data[i];
-                                console.log(el);
                                 circle.push({
                                         active: el.active,
                                         cases: el.cases,
@@ -297,7 +293,6 @@ function initViewChart() {
                                         long: el.countryInfo.long,
                                         img: el.countryInfo.flag
                                 });
-
                         }
 
                         var mymap = L.map('mapid').setView([10.45, 76.41], 2); //setView([lat, lon], 13)
@@ -318,7 +313,7 @@ function initViewChart() {
                                         `<img class="border country-thumbnail mb-1 d-inline" width="26" src="${el.img}"> 
                                         <h6 class="my-1 d-inline font-weight-bold mx-1"> ${el.country}</h6>
                                                       
-                                                <p class="my-1 pt-2">
+                                                <p class="my-1">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="mb-1 mr-1 bi bi-circle-fill text-warning" viewBox="0 0 16 16">
                                                 <circle cx="8" cy="8" r="8"/>
                                                 </svg>  Active: ${numberWithWord(el.active)}
