@@ -12,7 +12,7 @@ document.getElementById("myBtn").addEventListener("click", () => {
                         if (country === "") {
                                 document.getElementById("alert").innerHTML =
                                         `<small class="text-warning my-2"  role="alert">
-                                                <svg class="mb-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                                <svg class="mb-1" xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"
                                                         class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
                                                         <path
                                                                 d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z" />
@@ -111,7 +111,7 @@ document.getElementById("myBtn").addEventListener("click", () => {
                         document.getElementById("myCountry").value = "";
                         document.getElementById("alert").innerHTML =
                                 `<small class="text-warning my-2"  role="alert">
-                                                <svg class="mb-1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                                <svg class="mb-1" xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor"
                                                         class="bi bi-exclamation-triangle" viewBox="0 0 16 16">
                                                         <path
                                                                 d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.146.146 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.163.163 0 0 1-.054.06.116.116 0 0 1-.066.017H1.146a.115.115 0 0 1-.066-.017.163.163 0 0 1-.054-.06.176.176 0 0 1 .002-.183L7.884 2.073a.147.147 0 0 1 .054-.057zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z" />
@@ -210,7 +210,6 @@ function initView() {
                         return res.json();
                 })
                 .then(data => {
-                        // console.log(data);
                         document.getElementById("covidInfo").innerHTML = `
                 <div class="row my-3">
                         <div class="col-md-5 col-sm-6">
@@ -286,8 +285,9 @@ function initViewChart() {
                         var circle = [];
                         for (let i = 0; i < data.length; i++) {
                                 let el = data[i];
-                                // console.log(el);
+                                console.log(el);
                                 circle.push({
+                                        active: el.active,
                                         cases: el.cases,
                                         recovered: el.recovered,
                                         deaths: el.deaths,
@@ -310,17 +310,31 @@ function initViewChart() {
 
                         for (let i = 0; i < circle.length; i++) {
                                 let el = circle[i];
-                                L.circle([el.lat, el.long], 500, {
+                                L.circle([el.lat, el.long], 100, {
                                         color: '#de3700a6',
                                         fillColor: '#de3700a6',
                                         fillOpacity: 0.5,
                                 }).addTo(mymap).bindPopup(
-                                        `<img class="border country-thumbnail mb-1 d-inline" width="30" src="${el.img}">
-                                        <h6 class="my-1 d-inline font-weight-bold">${el.country}</h6><br>                             
-                                        Cases: ${numberWithWord(el.cases)}<br>
-                                        Recovered: ${numberWithWord(el.recovered)}<br>
-                                        Critical: ${numberWithWord(el.critical)}<br>
-                                        Deaths: ${numberWithWord(el.deaths)}
+                                        `<img class="border country-thumbnail mb-1 d-inline" width="26" src="${el.img}"> 
+                                        <h6 class="my-1 d-inline font-weight-bold mx-1"> ${el.country}</h6>
+                                                      
+                                                <p class="my-1 pt-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="mb-1 mr-1 bi bi-circle-fill text-warning" viewBox="0 0 16 16">
+                                                <circle cx="8" cy="8" r="8"/>
+                                                </svg>  Active: ${numberWithWord(el.active)}
+                                                </p>
+                                                <p class="my-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="mb-1 mr-1 bi bi-circle-fill text-success" viewBox="0 0 16 16">
+                                                <circle cx="8" cy="8" r="8"/>
+                                                </svg>  Recovered: ${numberWithWord(el.recovered)}
+                                                </p>
+                                                <p class="my-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="mb-1 mr-1 bi bi-circle-fill text-danger" viewBox="0 0 16 16">
+                                                <circle cx="8" cy="8" r="8"/>
+                                                </svg>  Deaths: ${numberWithWord(el.deaths)}
+                                                </p>
+                                        <hr class="dropdown-divider">
+                                        <b class="text-danger">Total Cases: ${numberWithWord(el.cases)}</b>
                                         `);
                                 mymap.on('zoomend', function (e) {
                                         var newRadius = Math.pow(mymap.getZoom(), 20);
